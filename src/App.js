@@ -47,6 +47,11 @@ function App() {
 		socket.emit('delete-band', id);
 	};
 
+	const onChangeName = (id, name) => {
+		// Emit to the backend.
+		socket.emit('change-name-band', { id, name });
+	};
+
 	return (
 		<div className='container'>
 			<div className='alert'>
@@ -69,6 +74,9 @@ function App() {
 						data={bands}
 						vote={onVote} /** The onVote function is passed like a property by reference */
 						onDelete={onDelete} /** The onDelete function is passed like a property by reference */
+						changeName={
+							onChangeName
+						} /** The onChangeName function is passed like a property by reference */
 					/>
 				</div>
 

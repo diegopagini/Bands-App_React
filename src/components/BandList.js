@@ -1,7 +1,7 @@
 /** @format */
 import { useEffect, useState } from 'react';
 
-export const BandList = ({ data, vote, onDelete }) => {
+export const BandList = ({ data, vote, onDelete, changeName }) => {
 	const [bands, setBands] = useState(data);
 
 	const onNameChange = (event, id) => {
@@ -16,8 +16,7 @@ export const BandList = ({ data, vote, onDelete }) => {
 
 	const onEnter = (event, id, name) => {
 		if (event.key === 'Enter') {
-			console.log(id);
-			console.log(name);
+			changeName(id, name);
 		}
 	};
 

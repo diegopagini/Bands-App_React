@@ -13,6 +13,7 @@ const connectSocketServer = () =>
 function App() {
 	const [socket] = useState(connectSocketServer());
 	const [online, setOnline] = useState(false);
+	const [bands, setBands] = useState([]);
 
 	useEffect(() => {
 		setOnline(socket.connected);
@@ -29,6 +30,17 @@ function App() {
 			setOnline(false);
 		});
 	}, [socket]);
+
+	useEffect(() => {
+		socket.on('current-bands', (data) => {
+			setBands(data);
+		});
+	}, [socket]);
+
+	const onVote = (id) => {
+		// Emit to the backend.
+		socket.emit('vote-band', id);
+	};
 
 	return (
 		<div className='container'>
@@ -48,7 +60,10 @@ function App() {
 
 			<div className='row'>
 				<div className='col-8'>
-					<BandList />
+					<BandList
+						data={bands}
+						vote={onVote} /** The onVote function is passed like a property by reference */
+					/>
 				</div>
 
 				<div className='col-4'>

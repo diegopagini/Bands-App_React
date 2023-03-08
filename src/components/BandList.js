@@ -1,7 +1,7 @@
 /** @format */
 import { useEffect, useState } from 'react';
 
-export const BandList = ({ data, vote }) => {
+export const BandList = ({ data, vote, onDelete }) => {
 	const [bands, setBands] = useState(data);
 
 	const onNameChange = (event, id) => {
@@ -19,6 +19,10 @@ export const BandList = ({ data, vote }) => {
 			console.log(id);
 			console.log(name);
 		}
+	};
+
+	const onDeleteBand = (id) => {
+		onDelete(id);
 	};
 
 	useEffect(() => {
@@ -46,7 +50,9 @@ export const BandList = ({ data, vote }) => {
 					<span className='p-3'>{band.votes}</span>
 				</td>
 				<td>
-					<button className='btn btn-danger'>Delete</button>
+					<button className='btn btn-danger' onClick={() => onDeleteBand(band.id)}>
+						Delete
+					</button>
 				</td>
 			</tr>
 		));

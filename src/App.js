@@ -42,6 +42,11 @@ function App() {
 		socket.emit('vote-band', id);
 	};
 
+	const onDelete = (id) => {
+		// Emit to the backend.
+		socket.emit('delete-band', id);
+	};
+
 	return (
 		<div className='container'>
 			<div className='alert'>
@@ -63,6 +68,7 @@ function App() {
 					<BandList
 						data={bands}
 						vote={onVote} /** The onVote function is passed like a property by reference */
+						onDelete={onDelete} /** The onDelete function is passed like a property by reference */
 					/>
 				</div>
 

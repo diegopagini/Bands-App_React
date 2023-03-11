@@ -1,11 +1,11 @@
 /** @format */
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
-import { useSocket } from '../hooks/useSocket';
+import { SocketContext } from '../context/SocketContext';
 
 export const BandAdd = () => {
 	const [name, setName] = useState('');
-	const { socket } = useSocket();
+	const { socket } = useContext(SocketContext);
 
 	const onSubmit = (event) => {
 		event.preventDefault();

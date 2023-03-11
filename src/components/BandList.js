@@ -1,8 +1,20 @@
 /** @format */
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-export const BandList = ({ data, vote, onDelete, changeName }) => {
-	const [bands, setBands] = useState(data);
+import { SocketContext } from '../context/SocketContext';
+
+export const BandList = () => {
+	const [bands, setBands] = useState([]);
+	const { socket } = useContext(SocketContext);
+
+	useEffect(() => {
+		socket.on('current-bands', (bands) => {
+			setBands(bands);
+		});
+
+		return () =>
+			socket.off('current-bands'); /** To fishin the connection when the component is destroyed */
+	}, [socket]);
 
 	const onNameChange = (event, id) => {
 		const newName = event.target.value;
@@ -16,17 +28,17 @@ export const BandList = ({ data, vote, onDelete, changeName }) => {
 
 	const onEnter = (event, id, name) => {
 		if (event.key === 'Enter') {
-			changeName(id, name);
+			socket.emit('change-name-band', { id, name });
 		}
 	};
 
 	const onDeleteBand = (id) => {
-		onDelete(id);
+		socket.emit('delete-band', id);
 	};
 
-	useEffect(() => {
-		setBands(data);
-	}, [data]);
+	const onVote = (id) => {
+		socket.emit('vote-band', id);
+	};
 
 	const createRows = () => {
 		return bands.map((band) => (
@@ -34,7 +46,7 @@ export const BandList = ({ data, vote, onDelete, changeName }) => {
 				<td>
 					<button
 						className='btn btn-primary'
-						onClick={() => vote(band.id)}>
+						onClick={() => onVote(band.id)}>
 						+1
 					</button>
 				</td>

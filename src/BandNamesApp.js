@@ -1,12 +1,11 @@
 /** @format */
-
-import App from './App';
 import { SocketProvider } from './context/SocketContext';
+import HomePage from './pages/HomePage';
 
 export const BandNamesApp = () => {
 	return (
 		<SocketProvider>
-			<App />
+			<HomePage />
 		</SocketProvider>
 	);
 };

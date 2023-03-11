@@ -1,16 +1,19 @@
 /** @format */
 import { useState } from 'react';
 
-export const BandAdd = ({ onCreate }) => {
-	const [value, setValue] = useState('');
+import { useSocket } from '../hooks/useSocket';
+
+export const BandAdd = () => {
+	const [name, setName] = useState('');
+	const { socket } = useSocket();
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		if (value.trim().length > 0) {
-			onCreate(value);
+		if (name.trim().length > 0) {
+			socket.emit('create-band', { name });
 		}
 
-		setValue('');
+		setName('');
 	};
 
 	return (
@@ -22,8 +25,8 @@ export const BandAdd = ({ onCreate }) => {
 					spellCheck={false}
 					className='form-control'
 					placeholder='New band name'
-					value={value}
-					onChange={(ev) => setValue(ev.target.value)}
+					value={name}
+					onChange={(ev) => setName(ev.target.value)}
 				/>
 			</form>
 		</>

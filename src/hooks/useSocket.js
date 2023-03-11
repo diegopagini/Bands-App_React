@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import io from 'socket.io-client';
 
-export const useSocket = (serverPath) => {
+export const useSocket = (serverPath = 'http://localhost:8080') => {
 	const socket = useMemo(
 		/** To prevent it from running every time some one start using it. */
 		() =>

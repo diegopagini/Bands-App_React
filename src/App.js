@@ -7,7 +7,7 @@ import { useSocket } from './hooks/useSocket';
 
 function App() {
 	const [bands, setBands] = useState([]);
-	const { socket, online } = useSocket('http://localhost:8080');
+	const { socket, online } = useSocket();
 
 	useEffect(() => {
 		socket.on('current-bands', (data) => {
@@ -28,11 +28,6 @@ function App() {
 	const onChangeName = (id, name) => {
 		// Emit to the backend.
 		socket.emit('change-name-band', { id, name });
-	};
-
-	const createBand = (name) => {
-		// Emit to the backend.
-		socket.emit('create-band', { name });
 	};
 
 	return (
@@ -64,11 +59,7 @@ function App() {
 				</div>
 
 				<div className='col-4'>
-					<BandAdd
-						onCreate={
-							createBand
-						} /** The onChangeName function is passed like a property by reference */
-					/>
+					<BandAdd />
 				</div>
 			</div>
 		</div>

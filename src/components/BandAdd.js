@@ -1,8 +1,8 @@
 /** @format */
-import { useState } from "react";
+import { useState } from 'react';
 
 export const BandAdd = ({ onCreate }) => {
-	const [value, setValue] = useState("");
+	const [value, setValue] = useState('');
 
 	const onSubmit = (event) => {
 		event.preventDefault();
@@ -10,7 +10,7 @@ export const BandAdd = ({ onCreate }) => {
 			onCreate(value);
 		}
 
-		setValue("");
+		setValue('');
 	};
 
 	return (

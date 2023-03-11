@@ -1,60 +1,38 @@
 /** @format */
-import { useEffect, useState } from "react";
-import io from "socket.io-client";
+import { useEffect, useState } from 'react';
 
-import { BandAdd } from "./components/BandAdd";
-import { BandList } from "./components/BandList";
-
-const connectSocketServer = () =>
-	io.connect("http://localhost:8080", {
-		transports: ["websocket"],
-	});
+import { BandAdd } from './components/BandAdd';
+import { BandList } from './components/BandList';
+import { useSocket } from './hooks/useSocket';
 
 function App() {
-	const [socket] = useState(connectSocketServer());
-	const [online, setOnline] = useState(false);
 	const [bands, setBands] = useState([]);
+	const { socket, online } = useSocket('http://localhost:8080');
 
 	useEffect(() => {
-		setOnline(socket.connected);
-	}, [socket]);
-
-	useEffect(() => {
-		socket.on("connect", () => {
-			setOnline(true);
-		});
-	}, [socket]);
-
-	useEffect(() => {
-		socket.on("disconnect", () => {
-			setOnline(false);
-		});
-	}, [socket]);
-
-	useEffect(() => {
-		socket.on("current-bands", (data) => {
+		socket.on('current-bands', (data) => {
 			setBands(data);
 		});
 	}, [socket]);
 
 	const onVote = (id) => {
 		// Emit to the backend.
-		socket.emit("vote-band", id);
+		socket.emit('vote-band', id);
 	};
 
 	const onDelete = (id) => {
 		// Emit to the backend.
-		socket.emit("delete-band", id);
+		socket.emit('delete-band', id);
 	};
 
 	const onChangeName = (id, name) => {
 		// Emit to the backend.
-		socket.emit("change-name-band", { id, name });
+		socket.emit('change-name-band', { id, name });
 	};
 
 	const createBand = (name) => {
 		// Emit to the backend.
-		socket.emit("create-band", { name });
+		socket.emit('create-band', { name });
 	};
 
 	return (

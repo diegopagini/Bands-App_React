@@ -32,7 +32,9 @@ export const BandList = ({ data, vote, onDelete, changeName }) => {
 		return bands.map((band) => (
 			<tr key={band.id}>
 				<td>
-					<button className='btn btn-primary' onClick={() => vote(band.id)}>
+					<button
+						className='btn btn-primary'
+						onClick={() => vote(band.id)}>
 						+1
 					</button>
 				</td>
@@ -49,7 +51,9 @@ export const BandList = ({ data, vote, onDelete, changeName }) => {
 					<span className='p-3'>{band.votes}</span>
 				</td>
 				<td>
-					<button className='btn btn-danger' onClick={() => onDeleteBand(band.id)}>
+					<button
+						className='btn btn-danger'
+						onClick={() => onDeleteBand(band.id)}>
 						Delete
 					</button>
 				</td>

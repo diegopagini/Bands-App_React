@@ -1,13 +1,13 @@
 /** @format */
-import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
 
-import { BandAdd } from './components/BandAdd';
-import { BandList } from './components/BandList';
+import { BandAdd } from "./components/BandAdd";
+import { BandList } from "./components/BandList";
 
 const connectSocketServer = () =>
-	io.connect('http://localhost:8080', {
-		transports: ['websocket'],
+	io.connect("http://localhost:8080", {
+		transports: ["websocket"],
 	});
 
 function App() {
@@ -20,36 +20,41 @@ function App() {
 	}, [socket]);
 
 	useEffect(() => {
-		socket.on('connect', () => {
+		socket.on("connect", () => {
 			setOnline(true);
 		});
 	}, [socket]);
 
 	useEffect(() => {
-		socket.on('disconnect', () => {
+		socket.on("disconnect", () => {
 			setOnline(false);
 		});
 	}, [socket]);
 
 	useEffect(() => {
-		socket.on('current-bands', (data) => {
+		socket.on("current-bands", (data) => {
 			setBands(data);
 		});
 	}, [socket]);
 
 	const onVote = (id) => {
 		// Emit to the backend.
-		socket.emit('vote-band', id);
+		socket.emit("vote-band", id);
 	};
 
 	const onDelete = (id) => {
 		// Emit to the backend.
-		socket.emit('delete-band', id);
+		socket.emit("delete-band", id);
 	};
 
 	const onChangeName = (id, name) => {
 		// Emit to the backend.
-		socket.emit('change-name-band', { id, name });
+		socket.emit("change-name-band", { id, name });
+	};
+
+	const createBand = (name) => {
+		// Emit to the backend.
+		socket.emit("create-band", { name });
 	};
 
 	return (
@@ -81,7 +86,11 @@ function App() {
 				</div>
 
 				<div className='col-4'>
-					<BandAdd />
+					<BandAdd
+						onCreate={
+							createBand
+						} /** The onChangeName function is passed like a property by reference */
+					/>
 				</div>
 			</div>
 		</div>
